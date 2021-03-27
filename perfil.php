@@ -33,9 +33,7 @@ $usuario=$_SESSION['usuario'];
                 (strlen(htmlspecialchars($_POST['documento'])) >= 1) &&
                 (strlen(htmlspecialchars($_POST['telefono']) >= 1)) &&
                 (strlen(htmlspecialchars($_POST['hijos']) >= 1)) &&
-                (strlen(htmlspecialchars($_POST['estadocivil']) >= 1)) &&
-                (strlen(htmlspecialchars($_POST['usuario']) >= 1)) &&
-                (strlen(htmlspecialchars($_POST['contraseña']) >= 1)))
+                (strlen(htmlspecialchars($_POST['estadocivil']) >= 1)))
                 {
                     $nombre= trim($_POST['nombre']);
                     $apellido= trim($_POST['apellido']);
@@ -46,19 +44,8 @@ $usuario=$_SESSION['usuario'];
                     $telefono= trim($_POST['telefono']);
                     $hijos= trim($_POST['hijos']);
                     $estadocivil= trim($_POST['estadocivil']); 
-                    $usuario= trim($_POST['usuario']);
-                    $pass= trim($_POST['contraseña']);		
-                    $consultausuario="SELECT * FROM usurios where usuario='$usuario'";
-                    $nuevousuario=mysqli_query($conex,$consultausuario); 
-            
-                    if(mysqli_num_rows($nuevousuario)>0)
-                    {
-                    ?>
-<h3 class="bad">¡Error en el registro! <br>Intentelo nuevamente</h3>
-<?php	
-                    }
-                    else
-                    {
+
+                    //condicion de que si el nombre o el campo es vacio entonces haga el update sin el campo foto (nombre, foto, tipoarchivo)
                         if (isset($_FILES['foto']['name']))
                         {
                             $tipoarchivo = $_FILES['foto']['type'];
@@ -73,16 +60,17 @@ $usuario=$_SESSION['usuario'];
                             $allowedfileextensions = array('jpg', 'gif', 'png');
             
                             if (in_array($fileextension, $allowedfileextensions)) {
+
                                 $consulta="INSERT INTO usurios(nombre, apellido, email, fechanacimiento, tipodocumento, numerodocumento, telefono, cantidadhijos,
-                                estadocivil, nombrefoto, foto, tipofoto, usuario, pass) VALUES ('$nombre','$apellido','$email','$fecha','$tipo','$documento','$telefono','$hijos','$estadocivil', '$newfilename', '$binariosimagen', '$tipoarchivo','$usuario','$pass')";	
+                                estadocivil, nombrefoto, foto, tipofoto) VALUES ('$nombre','$apellido','$email','$fecha','$tipo','$documento','$telefono','$hijos','$estadocivil', '$newfilename', '$binariosimagen', '$tipoarchivo')";	
                                 $resultado=mysqli_query($conex,$consulta);
                             }
-                        }
+                        
                             if ($resultado)
                             {
                             ?>
-<h3 class="ok">¡Registro Exitoso!</h3>
-<?php
+                            <h3 class="ok">¡Registro Exitoso!</h3>
+                            <?php
                             }
                             else
                             {

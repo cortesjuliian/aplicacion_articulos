@@ -17,6 +17,11 @@ include("conexion.php");
 session_start();
 $usuario=$_SESSION['usuario'];
      if ($_SESSION['usuario']) {	  
+
+
+
+
+        //espacio para hacer el insert de los mensajes
 ?>
 
 <!DOCTYPE HTML>
@@ -113,7 +118,7 @@ body {
             </header>
         </div>
 
-        <!-- articulos -->
+        <!-- mensajes -->
         <div id="banner-wrapper">
             <div id="banner" class="box container">
                 <h2>Mensajes</h2>
@@ -125,22 +130,27 @@ body {
                     <button class="tablinks" onclick="openart(event, 'crear')">Crear Mensaje</button>
                 </div>
 
+
                 <div id="entrada" class="tabcontent">
                     <h3>Posible titulo</h3>
                     <p>Aca iran los mensajes recibidos.</p>
                 </div>
+
+
 
                 <div id="enviados" class="tabcontent">
                     <h3>Posible titulo</h3>
                     <p>Aca iran los mensajes enviados.</p>
                 </div>
 
+                
+
                 <div id="crear" class="tabcontent">
                     <h3>Posible titulo</h3>
                     <tr>
                         <form method="post" enctype="multipart/form-data">
-                            <th>Para:<select name="usuario">
-                                    <option value="showAll" selected="selected">Seleccione cliente</option>
+                            <th>Para:<select name="usuarioquerecibe">
+                                    <option value="showAll" selected="selected">Seleccione usuario</option>
                                     <?php               
                                     $stmt = $dbcon->prepare('SELECT * FROM usurios');
                                     $stmt->execute();        

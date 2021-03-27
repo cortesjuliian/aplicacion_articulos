@@ -2,7 +2,15 @@
 include("conexion.php");
 session_start();
 $usuario=$_SESSION['usuario'];
-     if ($_SESSION['usuario']) {	  
+     if ($_SESSION['usuario']) {
+		 
+		
+//codigo para validar el articulo
+
+
+
+
+
 ?>
 
 <!DOCTYPE HTML>
@@ -107,15 +115,21 @@ body {font-family: Arial;}
 					</div>
 
 					<div id="todos" class="tabcontent">
+					<!-- Aca va el codigo para mostrar todos los articulos-->
 					<h3>Posible titulo</h3>
 					<p>Aca ira la consulta de todos los articulos.</p>
 					</div>
+
+
+					<!-- Aca va el codigo para mostrar los articulos propios-->
 
 					<div id="propios" class="tabcontent">
 					<h3>Posible titulo</h3>
 					<p>Aca ira los articulos del usuario.</p> 				
 					</div>
 
+
+					<!-- Aca va el codigo para mostrar la creacion de aritculos-->
 					<div id="crear" class="tabcontent">
 					<h3>Posible titulo</h3>
                     <tr>
