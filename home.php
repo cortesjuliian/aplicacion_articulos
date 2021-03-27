@@ -3,7 +3,6 @@ include("conexion.php");
 session_start();
 $usuario=$_SESSION['usuario'];
      if ($_SESSION['usuario']) {	 
-		 //prueba Git 
 ?>
 
 <!DOCTYPE HTML>
