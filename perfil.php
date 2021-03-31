@@ -44,29 +44,15 @@ $usuario=$_SESSION['usuario'];
                     $telefono= trim($_POST['telefono']);
                     $hijos= trim($_POST['hijos']);
                     $estadocivil= trim($_POST['estadocivil']); 
-
-                    //condicion de que si el nombre o el campo es vacio entonces haga el update sin el campo foto (nombre, foto, tipoarchivo)
-                        if (isset($_FILES['foto']['name']))
-                        {
-                            $tipoarchivo = $_FILES['foto']['type'];
-                            $nombrearchivo = $_FILES['foto']['name'];
-                            $tamanoarchivo = $_FILES['foto']['size'];
-                            $imagensubida = fopen($_FILES['foto']['tmp_name'], 'r');
-                            $binariosimagen = fread($imagensubida, $tamanoarchivo);								
-                            $binariosimagen = mysqli_escape_string($conex, $binariosimagen);
-                            $filenamecmps = explode(".", $nombrearchivo);
-                            $fileextension = strtolower(end($filenamecmps));			
-                            $newfilename = md5(time() . $nombrearchivo);
-                            $allowedfileextensions = array('jpg', 'gif', 'png');
-            
-                            if (in_array($fileextension, $allowedfileextensions)) {
-
-                                $consulta="INSERT INTO usurios(nombre, apellido, email, fechanacimiento, tipodocumento, numerodocumento, telefono, cantidadhijos,
-                                estadocivil, nombrefoto, foto, tipofoto) VALUES ('$nombre','$apellido','$email','$fecha','$tipo','$documento','$telefono','$hijos','$estadocivil', '$newfilename', '$binariosimagen', '$tipoarchivo')";	
-                                $resultado=mysqli_query($conex,$consulta);
-                            }
+                   
+                    //realizar el update de los campos
+                    $consulta="UPDATE usurios set (nombre, apellido, email, fechanacimiento, tipodocumento, numerodocumento, telefono, cantidadhijos,
+                    estadocivil) VALUES ('$nombre','$apellido','$email','$fecha','$tipo','$documento','$telefono','$hijos','$estadocivil')
+                    WHERE usuario='$usuario';";
+                    	
+                    $resultado1=mysqli_query($conex,$consulta);                            
                         
-                            if ($resultado)
+                            if ($resultado1)
                             {
                             ?>
                             <h3 class="ok">¡Registro Exitoso!</h3>
@@ -74,17 +60,17 @@ $usuario=$_SESSION['usuario'];
                             }
                             else
                             {
-                                ?>
-<h3 class="bad">¡Error en el registro!</h3>
-<?php
-                            }	
+                            ?>
+                            <h3 class="bad">¡Error en la actualizacion!</h3>
+                            <?php
+                            	
                     }
                 }
                 else
                 {	
                     ?>
-<h3 class="bad">¡Complete todos los campos!</h3>
-<?php
+                <h3 class="bad">¡Complete todos los campos!</h3>
+                <?php
                 }
             }
 
@@ -113,7 +99,7 @@ if (isset($_POST['Updatepass']))
                 else
                     {
                     ?>
-                    <h3 class="bad">¡Error en el registro!</h3>
+                    <h3 class="bad">¡Error en la actulizacion!</h3>
                     <?php
                     }	
                         
@@ -121,18 +107,48 @@ if (isset($_POST['Updatepass']))
                     else
                     {	
                         ?>
-            <!-- <h3 class="bad">¡Complete todos los campos!</h3> -->
-            <?php
+                    <!-- <h3 class="bad">¡Complete todos los campos!</h3> -->
+                    <?php
                     }
                 
+//hacer el update en la Bd de la foto
+if (isset($_POST['Updatepass']))
+{ 
+if (isset($_FILES['foto']['name']))
+			 {
+				$tipoarchivo = $_FILES['foto']['type'];
+				$nombrearchivo = $_FILES['foto']['name'];
+				$tamanoarchivo = $_FILES['foto']['size'];
+				$imagensubida = fopen($_FILES['foto']['tmp_name'], 'r');
+				$binariosimagen = fread($imagensubida, $tamanoarchivo);								
+				$binariosimagen = mysqli_escape_string($conex, $binariosimagen);
+				$filenamecmps = explode(".", $nombrearchivo);
+				$fileextension = strtolower(end($filenamecmps));			
+				$newfilename = md5(time() . $nombrearchivo);
+				$allowedfileextensions = array('jpg', 'gif', 'png');
 
-
-
-
-
-?>
-
-
+				if (in_array($fileextension, $allowedfileextensions)) {
+					$consulta="INSERT INTO usurios(nombre, apellido, email, fechanacimiento, tipodocumento, numerodocumento, telefono, cantidadhijos,
+					estadocivil, nombrefoto, foto, tipofoto, usuario, pass) VALUES ('$nombre','$apellido','$email','$fecha','$tipo','$documento','$telefono','$hijos','$estadocivil', '$newfilename', '$binariosimagen', '$tipoarchivo','$usuario','$pass')";	
+					$resultado=mysqli_query($conex,$consulta);
+				}
+			}
+            if ($resultado)
+            {
+            ?>
+            <h3 class="ok">¡Registro Exitoso!</h3>            
+            <?php
+            header("location:perfil.php");
+            }
+                else
+                    {
+                    ?>
+            <h3 class="bad">¡Error en el registro!</h3>
+            <?php
+                    }
+                }
+                    ?>               
+                   
 <!DOCTYPE HTML>
 
 <html>
@@ -196,6 +212,8 @@ if (isset($_POST['Updatepass']))
                             </th>
                             <th> <input type="submit" name="passw" value="Cambiar contraseña">
                             </th>
+                            <th> <input type="submit" name="foto" value="Cambiar foto">
+                            </th>
                         </tr>
                     </table>
                     <br>
@@ -210,34 +228,39 @@ if (isset($_POST['Updatepass']))
                     ?>
                 <form method="post" enctype="multipart/form-data">
                     <table class="default">
+                    <?php
+                    $query = "SELECT * FROM usurios WHERE usuario='$usuario';";
+                    $res = mysqli_query($conex, $query);
+                    $row = mysqli_fetch_assoc($res)
+                    ?>
                         <tr>
-                            <th>Nombre: <input type="text" name="nombre" placeholder="introduza su nombre"
+                            <th>Nombre: <input type="text" value="<?php echo $row['nombre']; ?>" name="nombre" placeholder="introduza su nombre"
                                     pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+" required><br></th>
-                            <th>Apellido: <input type="text" name="apellido" placeholder="introduza su apellido"
+                            <th>Apellido: <input type="text" value="<?php echo $row['apellido']; ?>" name="apellido" placeholder="introduza su apellido"
                                     pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+" required><br></th>
-                            <th>Email: <input type="email" name="email" placeholder="introduza su email"
+                            <th>Email: <input type="email" value="<?php echo $row['email']; ?>" name="email" placeholder="introduza su email"
                                     pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
                                     required><br></th>
                         </tr>
                         <tr>
-                            <th>Fecha de nacimiento: <br><input type="date" name="fecha" required><br></th>
+                            <th>Fecha de nacimiento: <br><input type="date" value="<?php echo $row['fechanacimiento']; ?>" name="fecha" required><br></th>
 
-                            <th>Tipo de documento: <select name="tipo" required>
+                            <th>Tipo de documento: <select name="tipo" value="<?php echo $row['tipodocumento']; ?>" required>
                                     <option value="CC">Cedula de ciudadania</option>
                                     <option value="TI">Tarjeta de Identidad</option>
                                     <option value="NIT">NIT</option>
                                 </select><br></th>
 
-                            <th>Numero de documento: <input type="text" name="documento"
+                            <th>Numero de documento: <input type="text" value="<?php echo $row['numerodocumento']; ?>" name="documento"
                                     placeholder="introduza su número de documento" pattern="[0-9]+" required
                                     onkeypress="return numeros(event)"><br></th>
                         </tr>
                         <tr>
-                            <th>Numero de telefono: <input type="tel" name="telefono"
+                            <th>Numero de telefono: <input type="tel" value="<?php echo $row['telefono']; ?>" name="telefono"
                                     placeholder="introduza su número de telefono" pattern="[0-9]+" minlength="10"
                                     maxlength="10"><br></th>
 
-                            <th>Cantidad de Hijos: <select name="hijos" required>
+                            <th>Cantidad de Hijos: <select name="hijos"  value="<?php echo $row['cantidadhijos']; ?>" required>
                                     <option value="Ninguno">0</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -247,17 +270,12 @@ if (isset($_POST['Updatepass']))
                                     <option value="5+">Más de 5</option>
                                 </select><br></th>
                             <th>
-                                Estado civil: <select name="estadocivil" required>
+                                Estado civil: <select name="estadocivil" value="<?php echo $row['estadocivil']; ?>" required>
                                     <option value="Soltero">Soltero(a)</option>
                                     <option value="Casado">Casado(a)</option>
                                 </select><br>
                             </th>
-                        </tr>
-                        <tr>
-                            <th>Foto de perfil:<br>
-                                <input type="file" name="foto" accept="image/png,image/jpeg" /><br>
-                            </th>
-                        </tr>
+                        </tr>                       
                         <!-- para posible cambio de usuario y contraseña -->
                         <!-- <tr>										
 											<th>Usuario: <input type="text" name="usuario" placeholder="introduza su usuario" pattern="[a-zA-Z0-9]+" required><br></th>	
@@ -297,6 +315,36 @@ if (isset($_POST['Updatepass']))
                 }
                     ?>
 
+
+                <?php
+                //Realiza el cambio de la foto
+                if (isset($_POST) && isset($_POST['foto'])) {
+                ?>
+                <form method="post" enctype="multipart/form-data">
+                    <table class="default">
+                        <tr>
+                        <th>
+                        <?php							
+									$query = "SELECT nombrefoto,foto,tipofoto FROM usurios WHERE usuario='$usuario';";
+									$res = mysqli_query($conex, $query);
+									$row = mysqli_fetch_assoc($res)
+									?>
+                            <img width="50"
+                                src="data:<?php echo $row['tipofoto']; ?>;base64,<?php echo  base64_encode($row['foto']); ?>">
+                        <th>
+                        </tr>
+                        <tr>
+                        <th>Foto de perfil:<br>
+                            <input type="file" name="foto" accept="image/png,image/jpeg" /><br>
+                            <th>
+                        </tr>
+                    </table>
+                    <input type="submit" name="foto" value="Actualizar foto">
+                </form>
+                <?php
+
+                }
+                    ?>
 
 
             </div>
