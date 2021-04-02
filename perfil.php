@@ -43,9 +43,8 @@ $usuario=$_SESSION['usuario'];
                     $documento= trim($_POST['documento']);
                     $telefono= trim($_POST['telefono']);
                     $hijos= trim($_POST['hijos']);
-                    $estadocivil= trim($_POST['estadocivil']); 
-                   
-                    //realizar el update de los campos
+                    $estadocivil= trim($_POST['estadocivil']);                    
+                    //obtener el id de la variable $usuario para completar el update de la info
                     $consulta="UPDATE usurios set (nombre, apellido, email, fechanacimiento, tipodocumento, numerodocumento, telefono, cantidadhijos,
                     estadocivil) VALUES ('$nombre','$apellido','$email','$fecha','$tipo','$documento','$telefono','$hijos','$estadocivil')
                     WHERE usuario='$usuario';";
@@ -112,7 +111,7 @@ if (isset($_POST['Updatepass']))
                     }
                 
 //hacer el update en la Bd de la foto
-if (isset($_POST['Updatepass']))
+if (isset($_POST['foto']))
 { 
 if (isset($_FILES['foto']['name']))
 			 {
@@ -128,8 +127,8 @@ if (isset($_FILES['foto']['name']))
 				$allowedfileextensions = array('jpg', 'gif', 'png');
 
 				if (in_array($fileextension, $allowedfileextensions)) {
-					$consulta="INSERT INTO usurios(nombre, apellido, email, fechanacimiento, tipodocumento, numerodocumento, telefono, cantidadhijos,
-					estadocivil, nombrefoto, foto, tipofoto, usuario, pass) VALUES ('$nombre','$apellido','$email','$fecha','$tipo','$documento','$telefono','$hijos','$estadocivil', '$newfilename', '$binariosimagen', '$tipoarchivo','$usuario','$pass')";	
+                    //CONSEGUIR EL ID DE LA VARIABLE $USUARIO PARA TERMINAR EL UPDATE
+					$consulta="UPDATE usurios SET(nombrefoto, foto, tipofoto) VALUES ('$newfilename', '$binariosimagen', '$tipoarchivo')";	
 					$resultado=mysqli_query($conex,$consulta);
 				}
 			}
@@ -149,6 +148,9 @@ if (isset($_FILES['foto']['name']))
                 }
                     ?>               
                    
+
+
+
 <!DOCTYPE HTML>
 
 <html>
