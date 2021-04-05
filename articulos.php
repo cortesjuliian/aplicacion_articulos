@@ -8,6 +8,22 @@ $resUsuario = mysqli_query($conex, $queryUsuario);
 $infoUsuario = mysqli_fetch_assoc($resUsuario);
 
 
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
+function Limpieza($cadena){
+	$patron = array('/<script>.*<\/script>/');
+	$cadena = preg_replace($patron, '', $cadena);
+	$cadena = htmlspecialchars($cadena);
+	return $cadena;
+}
+
+foreach ($_POST as $key => $value) {
+    $_POST[$key] = Limpieza($value);
+}
+
+
+
 if ($_SESSION['usuario']) {
 
     //Guardar Artículo

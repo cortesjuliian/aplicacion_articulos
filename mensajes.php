@@ -12,6 +12,22 @@ try {
     die($ex->getMessage());
 }
 
+
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
+function Limpieza($cadena){
+	$patron = array('/<script>.*<\/script>/');
+	$cadena = preg_replace($patron, '', $cadena);
+	$cadena = htmlspecialchars($cadena);
+	return $cadena;
+}
+
+foreach ($_POST as $key => $value) {
+    $_POST[$key] = Limpieza($value);
+}
+
+
 include("conexion.php");
 session_start();
 $usuario = $_SESSION['usuario'];
