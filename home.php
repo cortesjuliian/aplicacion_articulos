@@ -114,7 +114,7 @@ $usuario=$_SESSION['usuario'];
 							<div class="col-12">
 								<div id="copyright">
 									<ul class="menu">
-										<li>&copy; Julian Cortes</li><li></li>
+										<li></li><li></li>
 									</ul>
 								</div>
 							</div>

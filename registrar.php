@@ -42,7 +42,7 @@ if 	((strlen(htmlspecialchars($_POST['nombre']) >= 1)) &&
 		$hijos= trim($_POST['hijos']);
 		$estadocivil= trim($_POST['estadocivil']); 
 		$usuario= trim($_POST['usuario']);
-		$pass= trim($_POST['contraseña']);		
+		$pass= md5(trim($_POST['contraseña']));		
 		$consultausuario="SELECT * FROM usurios where usuario='$usuario'";
 		$nuevousuario=mysqli_query($conex,$consultausuario); 
 

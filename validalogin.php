@@ -16,7 +16,7 @@ foreach ($_POST as $key => $value) {
 if (strlen(htmlspecialchars($_POST['usuario']) >= 1) && (strlen(htmlspecialchars($_POST['contraseña']) >= 1)))
 {
   $usuario= trim($_POST['usuario']);
-  $contraseña= trim($_POST['contraseña']);
+  $contraseña= md5(trim($_POST['contraseña']));
   session_start();
   $_SESSION['usuario']=$usuario;
   $consulta="SELECT*FROM usurios where usuario='$usuario' and pass='$contraseña'";

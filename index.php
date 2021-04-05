@@ -70,7 +70,7 @@ ini_set('display_errors', '1');
 							<div class="col-12">
 								<div id="copyright">
 									<ul class="menu">
-										<li>&copy; Julian Cortes</li><li></li>
+										<li></li><li></li>
 									</ul>
 								</div>
 							</div>
@@ -82,3 +82,7 @@ ini_set('display_errors', '1');
 
 	</body>
 </html>
+<?php 
+//session_start();
+//echo $_SESSION['token'];
+?>
