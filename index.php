@@ -83,6 +83,6 @@ ini_set('display_errors', '1');
 	</body>
 </html>
 <?php 
-session_start();
-echo $_SESSION['token'];
+//session_start();
+//echo $_SESSION['token'];
 ?>
