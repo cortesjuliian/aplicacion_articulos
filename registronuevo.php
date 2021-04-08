@@ -44,7 +44,7 @@
 					<div id="banner" class="box container">
 					
 							<form  method="post" enctype="multipart/form-data">
-								<table class="default">
+								<table  style="width:100%">
 									<tr>							  
 										  <th>Nombre: <input type="text" name="nombre" placeholder="introduza su nombre" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+" required><br></th>									  
 										  <th>Apellido: <input type="text" name="apellido" placeholder="introduza su apellido" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+" required><br></th>

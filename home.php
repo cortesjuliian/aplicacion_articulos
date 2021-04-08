@@ -45,7 +45,7 @@ $usuario=$_SESSION['usuario'];
 									$res = mysqli_query($conex, $query);
 									$row = mysqli_fetch_assoc($res)
 									?>
-                            <img width="10" height="10"
+                            <img
                                 src="data:<?php echo $row['tipofoto']; ?>;base64,<?php echo  base64_encode($row['foto']); ?>">
 
                         </li>

@@ -229,7 +229,7 @@ if ($_SESSION['usuario']) {
                     if (isset($_POST) && isset($_POST['update'])) {
                     ?>
                         <form method="post" enctype="multipart/form-data">
-                            <table class="default">
+                            <table class="default"  style="width:100%">
                                 <?php
                                 $query = "SELECT * FROM usurios WHERE usuario='$usuario';";
                                 $res = mysqli_query($conex, $query);
@@ -288,7 +288,7 @@ if ($_SESSION['usuario']) {
                     if (isset($_POST) && isset($_POST['passw'])) {
                     ?>
                         <form method="post">
-                            <table class="default">
+                            <table class="default" style="width:100%">
                                 <tr>
                                     <th>Contraseña actual: <input type="password" id="identificador" name="contrasena1" placeholder="introduza su contraseña" pattern="[A-Za-z0-9!?-]{8,12}" minlength="8" maxlength="12" required></th>
                                 </tr>
@@ -312,7 +312,7 @@ if ($_SESSION['usuario']) {
                     if (isset($_POST) && isset($_POST['foto']) || isset($_FILES['foto'])) {
                     ?>
                         <form method="post" enctype="multipart/form-data">
-                            <table class="default">
+                            <table class="default" style="width:100%">
                                 <tr>
                                     <th>
                                         <?php

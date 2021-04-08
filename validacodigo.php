@@ -41,7 +41,7 @@
                         <li>Se ha enviado un codigo de confirmación al número de telefono registrado</li>
                     </ul>
 							<form action="validacodigoexitoso.php" method="post">							
-								<table class="inicio">
+								<table class="inicio" style="width:100%">
 									<tr>
 										<th>  </th>						  
 										  <th>Codigo: <input type="text" name="codigo" placeholder="introduza el codigo" pattern="[0-9]+" minlength="6" maxlength="6" required><br></th>									  

@@ -64,7 +64,7 @@ if ($_SESSION['usuario']) {
                         $nombreAdjunto = $target_file;
                     } else {
                     ?>
-                        <h3 class="ok">¡Mensaje enviado sin adjunto!</h3>
+                        <h3 class="bad">¡Error al adjuntar el archivo!</h3>
                 <?php
                     }
                 }
