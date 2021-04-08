@@ -23,7 +23,6 @@ foreach ($_POST as $key => $value) {
 }
 
 
-
 if ($_SESSION['usuario']) {
 
     //Guardar Artículo

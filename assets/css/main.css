@@ -1686,13 +1686,13 @@ input, select, textarea {
 
 		.image img {
 			display: block;
-			width: 100%;
+			width: 50%;
 			border-radius: 8px;
 		}
 
 		.image.fit {
 			display: block;
-			width: 100%;
+			width: 50%;
 		}
 
 		.image.featured {
