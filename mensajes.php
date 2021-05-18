@@ -22,27 +22,10 @@ ValidarSesion();
         </div>
 
 
-<<<<<<< Updated upstream
-                if ($uploadOk == 0) {
-?>
-                    <h3 class="bad">¡Error al adjuntar el archivo!</h3>
-                    <?php
-                } else {
-                    if (move_uploaded_file($_FILES["adjunto"]["tmp_name"], $target_file)) {
-                        $nombreAdjunto = $target_file;
-                    } else {
-                    ?>
-                        <h3 class="bad">¡Error al adjuntar el archivo!</h3>
-                <?php
-                    }
-                }
-            }
-=======
         <div id="enviados" class="tabcontent">
             <button class="ListarEnviados();">Refrescar</button>
             <div id="ListaEnviados"></div>
         </div>
->>>>>>> Stashed changes
 
 
         <div id="crear" class="tabcontent">

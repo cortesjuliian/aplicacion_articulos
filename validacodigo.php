@@ -2,43 +2,6 @@
 include "plantilla/header.php";
 ValidarSesion();
 
-<<<<<<< Updated upstream
-					</header>
-				</div>
-
-			<!-- Banner -->
-				<div id="banner-wrapper">
-					<div id="banner" class="box container">
-                    <ul>
-                        <li>Se ha enviado un codigo de confirmación al número de telefono registrado</li>
-                    </ul>
-							<form action="validacodigoexitoso.php" method="post">							
-								<table class="inicio" style="width:100%">
-									<tr>
-										<th>  </th>						  
-										  <th>Codigo: <input type="text" name="codigo" placeholder="introduza el codigo" pattern="[0-9]+" minlength="6" maxlength="6" required><br></th>									  
-										<th>  </th>
-									</tr>
-								</table>
-								<div style="text-align:center;">
-							  <input type="submit" value="Continuar">
-								</div>
-							</form>						
-					</div>
-				</div>			
-				</div>
-						<div class="row">
-							<div class="col-12">
-								<div id="copyright">
-									<ul class="menu">
-										<li></li><li></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</footer>
-				</div>
-=======
 ?>
 <!-- Banner -->
 <div id="banner-wrapper">
@@ -56,7 +19,6 @@ ValidarSesion();
 			</table>
 			<div style="text-align:center;">
 				<input type="submit" value="Continuar">
->>>>>>> Stashed changes
 			</div>
 		</form>
 	</div>
