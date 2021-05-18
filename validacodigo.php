@@ -1,36 +1,8 @@
 <?php
-	error_reporting(E_ALL);
-	ini_set('display_errors', '1');
-?>
-<!DOCTYPE HTML>
+include "plantilla/header.php";
+ValidarSesion();
 
-<html>
-	<head>
-		<title>Sistema</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-	</head>
-	<body class="is-preload homepage">
-		<div id="page-wrapper">
-
-			<!-- Header -->
-				<div id="header-wrapper">
-					<header id="header" class="container">
-
-						<!-- Logo -->
-							<div id="logo">
-								<h1><a href="index.php">Sistema</a></h1>
-								<span>UdeC</span>								
-							</div>
-
-						<!-- Nav -->
-							<nav id="nav">
-								<ul>
-                                <a class="button" href="index.php">Volver</a>							
-								</ul>
-							</nav>
-
+<<<<<<< Updated upstream
 					</header>
 				</div>
 
@@ -66,6 +38,55 @@
 						</div>
 					</footer>
 				</div>
+=======
+?>
+<!-- Banner -->
+<div id="banner-wrapper">
+	<div id="banner" class="box container">
+		<ul>
+			<li>Se ha enviado un codigo de confirmación al número de telefono registrado</li>
+		</ul>
+		<form id="FormCodigo" method="post">
+			<table class="inicio">
+				<tr>
+					<th> </th>
+					<th>Codigo: <input type="text" id="Codigo" name="Codigo" placeholder="introduza el codigo" pattern="[0-9]+" minlength="6" maxlength="6" required><br></th>
+					<th> </th>
+				</tr>
+			</table>
+			<div style="text-align:center;">
+				<input type="submit" value="Continuar">
+>>>>>>> Stashed changes
 			</div>
-	</body>
-</html>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$('#FormCodigo').submit(function (e) {
+		e.preventDefault();
+		if($('#Codigo').val() != '') {
+			$.ajax({
+				url: 'core/validacion-codigo.php',
+				data: $('#FormCodigo').serialize(),
+				type: 'post',
+				dataType: 'json',
+				success: function(resultado) {
+					if(resultado) {
+						location.href = "home.php";
+					} else {
+						PrintError("Código incorrecto")	
+					}
+				},
+				error: function() {
+					PrintError("Ocurrió un error al validar el código, inténtelo de nuevo.")
+				}
+			});
+		} else {
+			PrintError("Debe completar todos los campos para continuar.")
+		}
+	});
+</script>
+<?php
+include "plantilla/footer.php";
+?>

@@ -1,20 +1,10 @@
 <?php
-include("conexion.php");
-session_start();
-$usuario=$_SESSION['usuario'];
-     if ($_SESSION['usuario']) {
-		 //prueba git	 
-		 //Julian
+include "plantilla/header.php";
+ValidarSesion();
 ?>
 
-<!DOCTYPE HTML>
-<!--
-	Verti by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
 
+<<<<<<< Updated upstream
 <head>
     <title>Sistema</title>
     <meta charset="utf-8" />
@@ -65,76 +55,56 @@ $usuario=$_SESSION['usuario'];
 
             </header>
         </div>
-
-        <!-- Banner -->
-        <div id="banner-wrapper">
-            <div id="banner" class="box container">
-                <h3>Bienvenido a su administrador de articulos.</h3>
-            </div>
-        </div>
-
-        <!-- Features -->
-        <div id="features-wrapper">
-            <div class="container">
-                <div class="row">
-                    <div class="col-6 col-12-medium">
-
-                        <!-- Box -->
-                        <section class="box feature">
-                            <div class="inner">
-                                <header>
-                                    <h2>Artículos</h2>
-                                    <p>Visualice y gestione artículos</p>
-                                </header>
-                                <a class="button" href="articulos.php">Ir a Artículos</a>
-                            </div>
-                        </section>
-
-                    </div>
-                    <div class="col-6 col-12-medium">
-
-                        <!-- Box -->
-                        <section class="box feature">
-                            <div class="inner">
-                                <header>
-                                    <h2>Mensajes</h2>
-                                    <p>Gestione su centro de mensajes</p>
-                                </header>
-                                <a class="button" href="mensajes.php">Ir a Mensajes</a>
-                            </div>
-                        </section>
-
-                    </div>
-                    <div class="col-4 col-12-medium">
-
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
+=======
+<!-- Banner -->
+<div id="banner-wrapper">
+    <div id="banner" class="box container">
+        <h3>Bienvenido a su administrador de articulos.</h3>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <div id="copyright">
-                <ul class="menu">
-                    <li></li>
-                    <li></li>
-                </ul>
+</div>
+
+<!-- Features -->
+<div id="features-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-6 col-12-medium">
+
+                <!-- Box -->
+                <section class="box feature">
+                    <div class="inner">
+                        <header>
+                            <h2>Artículos</h2>
+                            <p>Visualice y gestione artículos</p>
+                        </header>
+                        <a class="button" href="articulos.php">Ir a Artículos</a>
+                    </div>
+                </section>
+>>>>>>> Stashed changes
+
+            </div>
+            <div class="col-6 col-12-medium">
+
+                <!-- Box -->
+                <section class="box feature">
+                    <div class="inner">
+                        <header>
+                            <h2>Mensajes</h2>
+                            <p>Gestione su centro de mensajes</p>
+                        </header>
+                        <a class="button" href="mensajes.php">Ir a Mensajes</a>
+                    </div>
+                </section>
+
+            </div>
+            <div class="col-4 col-12-medium">
+
+
+
             </div>
         </div>
     </div>
-    </footer>
-    </div>
+</div>
 
-    </div>
-
-</body>
-
-</html>
 <?php
-	 }
-	 else {
-		 header("location:index.php");
-	 }
+include "plantilla/footer.php";
 ?>

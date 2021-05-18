@@ -1,144 +1,215 @@
 <?php
-include("conexion.php");
-session_start();
 
-
-$usuario = $_SESSION['usuario'];
-if ($_SESSION['usuario']) {
-
-
-
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-
-    function Limpieza($cadena)
-    {
-        $patron = array('/<script>.*<\/script>/');
-        $cadena = preg_replace($patron, '', $cadena);
-        $cadena = htmlspecialchars($cadena);
-        return $cadena;
-    }
-
-    foreach ($_POST as $key => $value) {
-        $_POST[$key] = Limpieza($value);
-    }
-
-    $resultado = '';
-
-
-    //realizar la validacion para actualizar
-    if (isset($_POST['Actualizar'])) {
-        if ((strlen(htmlspecialchars($_POST['nombre']) >= 1)) &&
-            (strlen(htmlspecialchars($_POST['apellido']) >= 1)) &&
-            (strlen(htmlspecialchars($_POST['email']) >= 1)) &&
-            (strlen(htmlspecialchars($_POST['fecha']) >= 1)) &&
-            (strlen(htmlspecialchars($_POST['tipo']) >= 1)) &&
-            (strlen(htmlspecialchars($_POST['documento'])) >= 1) &&
-            (strlen(htmlspecialchars($_POST['telefono']) >= 1)) &&
-            (strlen(htmlspecialchars($_POST['hijos']) >= 1)) &&
-            (strlen(htmlspecialchars($_POST['estadocivil']) >= 1))
-        ) {
-            $nombre = trim($_POST['nombre']);
-            $apellido = trim($_POST['apellido']);
-            $email = trim($_POST['email']);
-            $fecha = trim($_POST['fecha']);
-            $tipo = trim($_POST['tipo']);
-            $documento = trim($_POST['documento']);
-            $telefono = trim($_POST['telefono']);
-            $hijos = trim($_POST['hijos']);
-            $estadocivil = trim($_POST['estadocivil']);
-            //obtener el id de la variable $usuario para completar el update de la info
-            $consulta = "UPDATE usurios 
-                    set nombre = '$nombre', apellido = '$apellido', email = '$email', fechanacimiento = '$fecha', tipodocumento = '$tipo', numerodocumento = '$documento', telefono = '$telefono', cantidadhijos = '$hijos', estadocivil = '$estadocivil'
-                    WHERE usuario='$usuario';";
-
-            $resultado1 = mysqli_query($conex, $consulta);
-
-            if ($resultado1) {
+include "plantilla/header.php";
+require "core/obtener-usuario.php";
 ?>
-                <h3 class="ok">¡Registro Exitoso!</h3>
-            <?php
-            } else {
-            ?>
-                <h3 class="bad">¡Error en la actualizacion!</h3>
-            <?php
 
-            }
-        } else {
-            ?>
-            <h3 class="bad">¡Complete todos los campos!</h3>
-            <?php
+<div id="banner-wrapper">
+    <div id="banner" class="box container">
+        <form method="post" enctype="multipart/form-data">
+            <table>
+                <tr>
+                    <th> <input type="submit" name="update" value="Actulizar información">
+                    </th>
+                    <th> <input type="submit" name="passw" value="Cambiar contraseña">
+                    </th>
+                    <th> <input type="submit" name="foto" value="Cambiar foto">
+                    </th>
+                </tr>
+            </table>
+            <br>
+            <br>
+        </form>
+        <?php
+        //relizar el update en la bd
+        if (isset($_POST) && isset($_POST['update'])) {
+        ?>
+            <form id="FormActualizar" method="post" enctype="multipart/form-data">
+                <table class="default" style="width: 100%;">
+
+                    <tr>
+                        <th>Nombre: <input type="text" value="<?php echo $perfil['nombre']; ?>" id="Nombre" name="Nombre" placeholder="introduza su nombre" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+" required><br></th>
+                        <th>Apellido: <input type="text" value="<?php echo $perfil['apellido']; ?>" id="Apellido" name="Apellido" placeholder="introduza su apellido" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+" required><br></th>
+                        <th>Email: <input type="email" value="<?php echo $perfil['email']; ?>" id="Email" name="Email" placeholder="introduza su email" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" required><br></th>
+                    </tr>
+                    <tr>
+                        <th>Fecha de nacimiento: <br><input type="date" value="<?php echo $perfil['fechanacimiento']; ?>" id="Fecha" name="Fecha" required><br></th>
+
+                        <th>Tipo de documento: <select id="Tipo" name="Tipo" value="<?php echo $perfil['tipodocumento']; ?>" required>
+                                <option value="CC">Cedula de ciudadania</option>
+                                <option value="TI">Tarjeta de Identidad</option>
+                                <option value="NIT">NIT</option>
+                            </select><br></th>
+
+                        <th>Numero de documento: <input type="text" value="<?php echo $perfil['numerodocumento']; ?>" id="Documento" name="Documento" placeholder="introduza su número de documento" pattern="[0-9]+" required onkeypress="return numeros(event)"><br></th>
+                    </tr>
+                    <tr>
+                        <th>Numero de telefono: <input type="tel" value="<?php echo $perfil['telefono']; ?>" id="Telefono" name="Telefono" placeholder="introduza su número de telefono" pattern="[0-9]+" minlength="10" maxlength="10"><br></th>
+
+                        <th>Cantidad de Hijos: <select id="Hijos" name="Hijos" value="<?php echo $perfil['cantidadhijos']; ?>" required>
+                                <option value="Ninguno">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="5+">Más de 5</option>
+                            </select><br></th>
+                        <th>
+                            Estado civil: <select id="Estadocivil" name="Estadocivil" value="<?php echo $perfil['estadocivil']; ?>" required>
+                                <option value="Soltero">Soltero(a)</option>
+                                <option value="Casado">Casado(a)</option>
+                            </select><br>
+                        </th>
+                    </tr>
+                </table>
+                <input type="submit" name="Actualizar" value="Actualizar">
+            </form>
+        <?php
         }
-    }
+        ?>
 
 
+        <?php
+        //Realiza el cambio de contraseña en la bd
+        if (isset($_POST) && isset($_POST['passw'])) {
+        ?>
+            <form id="FormClave">
+                <table class="default">
+                    <tr>
+                        <th>Contraseña actual: <input type="password" id="ClaveActual" name="ClaveActual" placeholder="introduza su contraseña" pattern="[A-Za-z0-9!?-]{8,12}" minlength="8" maxlength="12" required></th>
+                    </tr>
+                    <tr>
+                        <th>Contraseña Nueva: <input type="password" id="NuevaClave" name="NuevaClave" placeholder="introduza su contraseña" pattern="[A-Za-z0-9!?-]{8,12}" minlength="8" maxlength="12" required></th>
+                    </tr>
+                    <tr>
+                        <th>Repita la contraseña: <input type="password" id="ConfirmNuevaClave" name="ConfirmNuevaClave" placeholder="introduza su contraseña" pattern="[A-Za-z0-9!?-]{8,12}" minlength="8" maxlength="12" required></th>
+                    </tr>
+                </table>
+                <input type="submit" name="Updatepass" value="Actualizar">
+            </form>
+        <?php
 
-    if (isset($_POST['ActualizarFoto'])) {
-        if (isset($_FILES['foto']['name'])) {
-            $tipoarchivo = $_FILES['foto']['type'];
-            $nombrearchivo = $_FILES['foto']['name'];
-            $tamanoarchivo = $_FILES['foto']['size'];
-            $imagensubida = fopen($_FILES['foto']['tmp_name'], 'r');
-            $binariosimagen = fread($imagensubida, $tamanoarchivo);
-            $binariosimagen = mysqli_escape_string($conex, $binariosimagen);
-            $filenamecmps = explode(".", $nombrearchivo);
-            $fileextension = strtolower(end($filenamecmps));
-            $newfilename = md5(time() . $nombrearchivo);
-            $allowedfileextensions = array('jpg', 'jpeg', 'gif', 'png');
-
-            if (in_array($fileextension, $allowedfileextensions)) {
-                $consulta = "UPDATE usurios set nombrefoto = '$newfilename', foto = '$binariosimagen', tipofoto = '$tipoarchivo' 
-                    where usuario = '$usuario'";
-
-
-                $resultadoFoto = mysqli_query($conex, $consulta);
-                if ($resultadoFoto) {
-            ?>
-                    <h3 class="ok">¡Cambio imagen exitoso!</h3>
-                <?php
-                } else {
-                ?>
-                    <h3 class="bad">¡Error en la actualizacion!</h3>
-                    <?php
-
-                }
-            }
         }
-    }
+        ?>
 
-    //realizar la validacion para cambiar la contraseña
-    if (isset($_POST['Updatepass'])) {
-        if ((strlen(htmlspecialchars($_POST['contrasena1']) >= 1)) &&
-            (strlen(htmlspecialchars($_POST['contrasena2']) >= 1)) &&
-            (strlen(htmlspecialchars($_POST['contrasena3']) >= 1))
+
+        <?php
+        //Realiza el cambio de la foto
+        if (isset($_POST) && isset($_POST['foto']) || isset($_FILES['foto'])) {
+        ?>
+            <form id="FormFoto">
+                <table class="default">
+                    <tr>
+                        <th>
+                            <img width="50" src="data:<?php echo $perfil['tipofoto']; ?>;base64,<?php echo base64_encode($perfil['foto']); ?>">
+                        <th>
+                    </tr>
+                    <tr>
+                        <th>Foto de perfil:<br>
+                            <input type="file" name="Foto" id="Foto" accept="image/png,image/jpeg" /><br>
+                        <th>
+                    </tr>
+                </table>
+                <input type="submit" name="ActualizarFoto" value="Actualizar Foto">
+            </form>
+        <?php
+
+        }
+        ?>
+
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $('#FormActualizar').submit(function(e) {
+        e.preventDefault();
+        if (
+            $('#Nombre').val() != '' &&
+            $('#Apellido').val() != '' &&
+            $('#Email').val() != '' &&
+            $('#Fecha').val() != '' &&
+            $('#Tipo').val() != '' &&
+            $('#Documento').val() != '' &&
+            $('#Hijos').val() != '' &&
+            $('#Telefono').val() != '' &&
+            $('#Estadocivil').val() != ''
         ) {
-            $contrasena1 = md5(trim($_POST['contrasena1']));
-            $contrasena2 = md5(trim($_POST['contrasena2']));
-            $contrasena3 = md5(trim($_POST['contrasena3']));
-            if ($contrasena2 == $contrasena3) {
-                $query = "SELECT pass FROM usurios WHERE usuario='$usuario';";
-                $res = mysqli_query($conex, $query);
-                $row = mysqli_fetch_assoc($res);
 
-                if ($row["pass"] == $contrasena1) {
-                    $consultaPass = "UPDATE usurios set pass = '$contrasena2' WHERE usuario='$usuario';";
-                    $resultadoPass = mysqli_query($conex, $consultaPass);
-                    if ($resultadoPass) {
-                    ?>
-                        <h3 class="ok">¡Cambio de contraseña exitoso!</h3>
-                    <?php
-                    } else {
-                    ?>
-                        <h3 class="bad">¡Error en la actualizacion!</h3>
-                    <?php
-
-                    }
-                } else {
-                    ?>
-                    <h3 class="bad">Las constraseña actual es incorrecta</h3>
-                <?php
+            $.ajax({
+                url: 'core/actualizar-usuario.php',
+                data: $('#FormActualizar').serialize(),
+                type: 'post',
+                dataType: 'json',
+                success: function(resultado) {
+                    PrintOk("Usuario actualizado exitosamente")
+                },
+                error: function() {
+                    PrintError("Ocurrió un error al actualizar el usuario, inténtelo de nuevo.")
                 }
+            });
+        } else {
+            PrintError("Debe completar todos los campos para continuar.")
+        }
+    });
+
+    $('#FormFoto').submit(function(e) {
+        e.preventDefault();
+        if (
+            $('#Foto').val() != ''
+        ) {
+
+            var files = $('#Foto')[0].files;
+
+            var formData = new FormData();
+            formData.append("Foto", files[0]);
+
+            $.ajax({
+                url: 'core/actualizar-foto.php',
+                data: formData,
+                type: 'post',
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function(resultado) {
+                    location.reload();
+                },
+                error: function() {
+                    PrintError("Ocurrió un error al actualizar la foto, inténtelo de nuevo.")
+                }
+            });
+        } else {
+            PrintError("Debe completar todos los campos para continuar.")
+        }
+    });
+
+    $('#FormClave').submit(function(e) {
+        e.preventDefault();
+        if (
+            $('#ClaveActual').val() != '' &&
+            $('#NuevaClave').val() != '' &&
+            $('#ConfirmNuevaClave').val() != ''
+        ) {
+
+            $.ajax({
+                url: 'core/actualizar-clave.php',
+                data: $('#FormClave').serialize(),
+                type: 'post',
+                dataType: 'json',
+                success: function(resultado) {
+                    if (resultado) {
+                        PrintOk("Contraseña actualizada exitosamente.");
+                        $('#FormClave')[0].reset();
+                    } else {
+                        PrintError("La contraseña actual es incorrecta.")
+                    }
+                },
+                error: function() {
+                    PrintError("Ocurrió un error al actualizar la contraseña, inténtelo de nuevo.")
+                }
+<<<<<<< Updated upstream
             } else {
                 ?>
                 <h3 class="bad">Las constraseñas no coinciden</h3>
@@ -356,8 +427,14 @@ if ($_SESSION['usuario']) {
     </body>
 
     </html>
+=======
+            });
+        } else {
+            PrintError("Debe completar todos los campos para continuar.")
+        }
+    });
+</script>
+>>>>>>> Stashed changes
 <?php
-} else {
-    header("location:index.php");
-}
+include "plantilla/footer.php";
 ?>
