@@ -47,7 +47,7 @@ if (
           'apiKey' => 'YFXaYKHmZrsU9ZKY2Vk2mtHQpA342A', //clave API del usuario
           'token' => 'd468cc4bedfc33a9e4bc0f595093b4b4', // Token de usuario
           'toNumber' => '57' . $telefono_final, //número de destino
-          'sms' => 'El codigo para ingresar al sistema es: ' . $token, // mensaje de texto
+          'sms' => 'Hola, el codigo para ingresar al sistema es: ' . $token .' Gracias por utilizar nuestros servicios.', // mensaje de texto
           'flash' => '0', //mensaje tipo flash
           'sendDate' => time(), //fecha de envío del mensaje
           'isPriority' => 1, //mensaje prioritario
