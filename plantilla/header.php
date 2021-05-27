@@ -21,7 +21,7 @@ require "config.php";
             <header id="header" class="container">
                 <!-- Logo -->
                 <div id="logo">
-                    <h1><a href="index.php">Sistema</a></h1>
+                    <h1><a href="home.php">Sistema</a></h1>
                     <span>UdeC</span>
                 </div>
                 <!-- Nav -->

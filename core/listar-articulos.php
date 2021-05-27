@@ -6,6 +6,17 @@ require('conexion.php');
 
 use Core\Conexion;
 
+function Limpieza($cadena){
+	$patron = array('/<script>.*<\/script>/');
+	$cadena = preg_replace($patron, '', $cadena);
+	$cadena = htmlspecialchars($cadena);
+	return $cadena;
+}
+
+foreach ($_POST as $key => $value) {
+	$_POST[$key] = Limpieza($value);
+}
+
 $conexion = new Conexion();
 try {
     $conexion->OpenConnection();

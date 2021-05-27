@@ -5,7 +5,20 @@ $_SESSION["usuario"] = null;
 $_SESSION["foto"] = null;
 $_SESSION["token"] = null;
 $_SESSION["tokenvalido"] = null;
+
+function Limpieza($cadena){
+	$patron = array('/<script>.*<\/script>/');
+	$cadena = preg_replace($patron, '', $cadena);
+	$cadena = htmlspecialchars($cadena);
+	return $cadena;
+}
+
+foreach ($_POST as $key => $value) {
+	$_POST[$key] = Limpieza($value);
+}
+
 ?>
+
 <!-- Banner -->
 <div id="banner-wrapper">
 	<div id="banner" class="box container">
@@ -13,12 +26,12 @@ $_SESSION["tokenvalido"] = null;
 			<table class="inicio">
 				<tr>
 					<th> </th>
-					<th>Usuario: <input type="text" id="Usuario" name="Usuario" placeholder="introduza su usuario" required><br></th>
+					<th>Usuario: <input type="text" id="Usuario" name="Usuario" placeholder="introduza su usuario" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+" required><br></th>
 					<th> </th>.
 				</tr>
 				<tr>
 					<th> </th>
-					<th>Contraseña: <input type="password" id="Contrasena" name="Contrasena" placeholder="introduza su contraseña" required></th>
+					<th>Contraseña: <input type="password" id="Contrasena" name="Contrasena" placeholder="introduza su contraseña" pattern="[A-Za-z0-9!?-]{8,12}" required></th>
 					<th> </th>
 				</tr>
 
@@ -60,4 +73,7 @@ $_SESSION["tokenvalido"] = null;
 
 <?php
 include "plantilla/footer.php";
+?>
+<?php 
+//echo $_SESSION['token'];
 ?>

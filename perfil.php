@@ -2,6 +2,18 @@
 
 include "plantilla/header.php";
 require "core/obtener-usuario.php";
+
+function Limpieza($cadena){
+	$patron = array('/<script>.*<\/script>/');
+	$cadena = preg_replace($patron, '', $cadena);
+	$cadena = htmlspecialchars($cadena);
+	return $cadena;
+}
+
+foreach ($_POST as $key => $value) {
+	$_POST[$key] = Limpieza($value);
+}
+
 ?>
 
 <div id="banner-wrapper">
